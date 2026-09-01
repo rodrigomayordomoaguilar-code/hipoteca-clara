@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Calcula la cuota, intereses y plan de amortización de tu hipoteca en España." />
+    <title>Hipoteca Clara — Calculadora de hipoteca</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#inicio" aria-label="Hipoteca Clara, inicio">Hipoteca<span>Clara</span></a>
+      <nav aria-label="Navegación principal">
+        <a class="nav-active" href="#inicio">Inicio</a>
+        <a href="#calculadora">Mi hipoteca</a>
+        <a href="cuota.html">Cuota</a>
+        <a href="dinero-necesario.html">Comprar vivienda</a>
+        <a href="amortizacion.html">Gestionar</a>
+        <a href="#herramientas">Todas las calculadoras</a>
+        <a href="#fuentes">Guías</a>
+      </nav>
+    </header>
+
+    <main id="inicio">
+      <section class="hero">
+        <p class="eyebrow">CALCULADORAS HIPOTECARIAS PARA ESPAÑA</p>
+        <h1>Calcula tu hipoteca<br /><em>con claridad.</em></h1>
+        <p class="hero-copy">Cuota, coste total y tabla de amortización al instante. Gratis y sin registro.</p>
+        <p class="microcopy">Estimación informativa · Método francés · Sin ofertas ocultas</p>
+      </section>
+
+      <section class="tools" id="herramientas" aria-labelledby="tools-title">
+        <p class="eyebrow">MVP DE HERRAMIENTAS</p>
+        <h2 id="tools-title">Decide con los números delante.</h2>
+        <div class="tool-grid">
+          <a href="cuota.html"><span>01</span><strong>Cuota hipotecaria</strong><small>La cuota de tu préstamo.</small></a>
+          <a href="tabla.html"><span>02</span><strong>Tabla de amortización</strong><small>Capital e intereses año a año.</small></a>
+          <a href="capacidad.html"><span>03</span><strong>¿Cuánto puedo pedir?</strong><small>Estimación según ingresos y deudas.</small></a>
+          <a href="sueldo.html"><span>04</span><strong>Hipoteca según sueldo</strong><small>Una lectura directa de tu nómina.</small></a>
+          <a href="dinero-necesario.html"><span>05</span><strong>Dinero para comprar casa</strong><small>Entrada y presupuesto de gastos.</small></a>
+          <a href="comparar.html"><span>06</span><strong>Fija frente a variable</strong><small>Compara dos escenarios.</small></a>
+        </div>
+      </section>
+
+      <section class="calculator-wrap" id="calculadora" aria-labelledby="calculator-title">
+        <div class="calculator-heading">
+          <p class="eyebrow">CALCULADORA PRINCIPAL</p>
+          <h2 id="calculator-title">Tu cuota hipotecaria</h2>
+          <p>Introduce los datos de tu operación. Actualizamos el resultado al momento.</p>
+        </div>
+        <div class="calculator-grid">
+          <form id="mortgage-form" novalidate>
+            <div class="field-group">
+              <label for="price">Precio de la vivienda</label>
+              <div class="input-suffix"><input id="price" name="price" type="number" value="250000" min="1" step="1000" inputmode="decimal" required /><span>€</span></div>
+            </div>
+            <div class="field-group">
+              <label for="deposit">Entrada aportada</label>
+              <div class="input-suffix"><input id="deposit" name="deposit" type="number" value="50000" min="0" step="1000" inputmode="decimal" required /><span>€</span></div>
+              <p class="field-note">No incluye impuestos ni gastos de compra.</p>
+            </div>
+            <div class="two-fields">
+              <div class="field-group">
+                <label for="rate">Tipo de interés nominal</label>
+                <div class="input-suffix"><input id="rate" name="rate" type="number" value="2.75" min="0" max="30" step="0.01" inputmode="decimal" required /><span>%</span></div>
+              </div>
+              <div class="field-group">
+                <label for="years">Plazo</label>
+                <div class="input-suffix"><input id="years" name="years" type="number" value="25" min="1" max="50" step="1" inputmode="numeric" required /><span>años</span></div>
+              </div>
+            </div>
+            <fieldset>
+              <legend>Tipo de hipoteca</legend>
+              <div class="segmented-control">
+                <label><input type="radio" name="mortgageType" value="fixed" checked /><span>Fija</span></label>
+                <label><input type="radio" name="mortgageType" value="variable" /><span>Variable</span></label>
+              </div>
+              <p class="field-note" id="type-note">Calculamos una cuota constante durante toda la vida del préstamo.</p>
+            </fieldset>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+          </form>
+
+          <aside class="result-card" aria-live="polite">
+            <p class="result-label">CUOTA MENSUAL ESTIMADA</p>
+            <p class="monthly-payment" id="monthly-payment">—</p>
+            <p class="result-context" id="loan-context">—</p>
+            <hr />
+            <dl class="result-breakdown">
+              <div><dt>Capital prestado</dt><dd id="principal-result">—</dd></div>
+              <div><dt>Intereses estimados</dt><dd id="interest-result">—</dd></div>
+              <div><dt>Total a devolver</dt><dd id="total-result">—</dd></div>
+            </dl>
+            <button class="button button-secondary" id="show-table" type="button">Ver tabla de amortización</button>
+            <div class="result-actions"><button id="share-simulation" type="button">Compartir simulación</button><button id="print-simulation" type="button">Imprimir</button></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="visual-section" aria-labelledby="visual-title">
+        <div class="visual-heading">
+          <p class="eyebrow">LECTURA VISUAL</p>
+          <h2 id="visual-title">Así evoluciona tu préstamo.</h2>
+          <p>El gráfico se actualiza con tus cifras y muestra cómo baja el capital pendiente con el paso de los años.</p>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-panel">
+            <div class="chart-labels"><span>Capital pendiente</span><span id="chart-end-label">—</span></div>
+            <svg id="amortization-chart" viewBox="0 0 600 260" role="img" aria-label="Gráfico de evolución del capital pendiente"></svg>
+            <div class="chart-tooltip" id="line-tooltip" hidden></div>
+          </div>
+          <div class="cost-visual" aria-live="polite">
+            <div class="donut" id="cost-donut"><span id="capital-share">—</span></div>
+            <div><p class="eyebrow">COMPOSICIÓN DEL PAGO</p><h3>Capital e intereses</h3><p><i class="legend-dot capital"></i>Capital <strong id="chart-capital">—</strong></p><p><i class="legend-dot interest"></i>Intereses <strong id="chart-interest">—</strong></p></div>
+          </div>
+          <div class="chart-panel chart-panel-bars">
+            <div class="chart-labels"><span>Pago anual: capital e intereses</span><span>Explora cada barra</span></div>
+            <svg id="payment-breakdown-chart" viewBox="0 0 600 260" role="img" aria-label="Gráfico de barras de capital e intereses pagados cada año"></svg>
+            <div class="chart-tooltip" id="bar-tooltip" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="table-section" id="amortization" hidden aria-labelledby="table-title">
+        <div>
+          <p class="eyebrow">DESGLOSE ANUAL</p>
+          <h2 id="table-title">Tabla de amortización</h2>
+          <p>Resumen anual del método francés: la cuota es constante si el tipo no cambia.</p>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Año</th><th>Pagado</th><th>Capital</th><th>Intereses</th><th>Capital pendiente</th></tr></thead>
+            <tbody id="amortization-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="how" id="como-funciona">
+        <div><p class="eyebrow">QUÉ INCLUYE</p><h2>Una cifra útil necesita contexto.</h2></div>
+        <div class="feature-list">
+          <article><span>01</span><h3>Cuota mensual</h3><p>Calculada con sistema francés, el modelo habitual para cuotas hipotecarias.</p></article>
+          <article><span>02</span><h3>Coste completo</h3><p>Separamos capital e intereses para que puedas comparar escenarios.</p></article>
+          <article><span>03</span><h3>Supuestos visibles</h3><p>Sin datos ocultos: los impuestos, seguros y comisiones no incluidos se indican claramente.</p></article>
+        </div>
+      </section>
+
+      <section class="disclaimer" id="fuentes">
+        <h2>Antes de usar el resultado</h2>
+        <p>Esta herramienta ofrece una estimación matemática con pagos mensuales y tipo nominal anual. Las condiciones reales pueden variar por TAE, productos vinculados, comisiones, fecha de firma y contrato. Contrasta siempre la FEIN y la oferta de tu entidad.</p>
+        <p>La metodología se inspira en los supuestos divulgados por el Banco de España para préstamos amortizados por el sistema francés. Consulta sus <a href="https://clientebancario.bde.es/pcb/es/menu-horizontal/podemosayudarte/simuladores/" target="_blank" rel="noopener noreferrer">simuladores oficiales</a> y la <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2019-3814" target="_blank" rel="noopener noreferrer">Ley 5/2019</a> para el cálculo regulado de la TAE.</p>
+      </section>
+    </main>
+
+    <footer><span>© 2026 Hipoteca Clara</span><span><a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a> · <a href="cookies.html">Cookies</a></span></footer>
+    <div class="cookie-banner" id="cookie-banner" hidden><p>Usamos almacenamiento local para recordar tu elección. La analítica o publicidad no se activa en esta versión.</p><div><button id="cookie-essential" type="button">Solo necesarias</button><button id="cookie-accept" type="button">Aceptar</button></div></div>
+    <script src="site.js"></script><script src="app.js"></script>
+  </body>
+</html>
